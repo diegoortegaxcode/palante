@@ -1,26 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@font-face {
+  font-family: 'Mark Pro';
+  src: url('/fonts/Mark-Pro-Heavy.ttf') format('truetype');
+  font-weight: bold;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@font-face {
+  font-family: 'Mark Pro R';
+  src: url('/fonts/MarkPro-Regular.ttf') format('truetype');
+  font-weight: normal;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+h3 {
+  font-family: 'Mark Pro', sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+p, a ,h4, li, span, h2, button, input[text="text"] {
+  font-family: 'Mark Pro R', sans-serif !important;
+}
+
+h6, strong {
+  font-family: "Ubuntu";
+}
+
+.logos > div:nth-child(2) img {
+  width: 60%;
+}
+
+input {
+  width: 100%;
+  outline: none;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+}
+
+select {
+  font-weight: 300;
+}
+
+.ReactModal__Overlay {
+  color: rgb(51, 51, 51);
+  overflow: hidden !important;
+  background-color: rgba(51, 51, 51, 0.9) !important;
 }
