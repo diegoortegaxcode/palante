@@ -2,21 +2,25 @@ import papymes from '@/public/img/papymescolor.png';
 import pamotors from '@/public/img/pamotorscolor.png';
 import pafactoring from '@/public/img/pafactoringcolor.png';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Logos = () => {
 
     const logos = [
         {
             id: 1,
-            logo: papymes
+            logo: papymes,
+            path: '/papymes'
         },
         {
             id: 2,
-            logo: pamotors
+            logo: pamotors,
+            path: '/pamotors'
         },
         {
             id: 3,
-            logo: pafactoring
+            logo: pafactoring,
+            path: '/pafactoring'
         }
     ]
 
@@ -28,7 +32,7 @@ const Logos = () => {
                     logos?.map((item: any) => {
                         return (
                             <div key={item.id} className='flex justify-center items-center text-center'>
-                                <Image className='w-9/12 mx-auto flex justify-center ' src={item.logo} width={500} height={500} alt='logo' />
+                                    <Link className='cursor-pointer' href={item.path}><Image className={`${item.path === "/pamotors" ? "w-full" : "w-8/12"} mx-auto flex justify-center`} src={item.logo} width={500} height={500} alt='logo' /></Link>
                             </div>
                         )
                     })
