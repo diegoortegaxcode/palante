@@ -7,6 +7,7 @@ import clsx from "clsx";
 import logo from "@/public/img/logopalanta.png";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useCatalogosStore } from "@/zustand/catalogos";
+import Link from "next/link";
 
 const menuStructure = [
     {
@@ -88,8 +89,8 @@ export default function Navbar() {
                     <a href="/"><Image src={logo} alt="Logo" width={180} height={50} /></a>
 
                     <div className="hidden md:flex space-x-4">
-                        <Icon color="#23286E" icon="ic:baseline-facebook" width="50" height="50" />
-                        <Icon color="#23286E" icon="mdi:linkedin" width="50" height="50" />
+                        <Link href="https://web.facebook.com/palanteprestamos/?_rdc=1&_rdr#" target="_blank"><Icon color="#23286E" icon="ic:baseline-facebook" width="50" height="50" /></Link>
+                        <Link href="https://www.linkedin.com/company/grupo-palante/" target="_blank"><Icon color="#23286E" icon="mdi:linkedin" width="50" height="50" /></Link>
                     </div>
                     <button className="md:hidden" onClick={() => setOpen(true)}>
                         <Menu className="w-6 h-6 text-gray-700" />

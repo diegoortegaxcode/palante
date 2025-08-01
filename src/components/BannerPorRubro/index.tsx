@@ -365,7 +365,7 @@ const BannerPorRubro = ({ encontrarRubro }: any) => {
                                             value={formData.id_provincia}
                                             disabled={provincias?.length === 0}
 
-                                            className="p-3 bg-[rgba(255,255,255,0.3)] rounded text-black w-full disabled:bg-[rgba(255,255,255,0.3)]"
+                                            className={`p-3 ${formData.id_departamento === "" ? "bg-[rgba(255,255,255,0.3)]" : "bg-[rgba(255,255,255)]"} rounded text-black w-full disabled:bg-[rgba(255,255,255,0.3)]`}
                                         >
                                             <option value="">Provincia</option>
                                             {
@@ -382,7 +382,7 @@ const BannerPorRubro = ({ encontrarRubro }: any) => {
                                             disabled={distritos?.length === 0}
                                             onChange={handleChange}
                                             value={formData.id_distrito}
-                                            className="p-3 bg-[rgba(255,255,255,0.3)] rounded text-black w-full disabled:bg-[rgba(255,255,255,0.3)"
+                                            className={`p-3 ${formData.id_provincia === "" ? "bg-[rgba(255,255,255,0.3)]" : "bg-[rgba(255,255,255)]"} rounded text-black w-full disabled:bg-[rgba(255,255,255,0.3)`}
                                         >
                                             <option value="">Distritos</option>
                                             {
