@@ -6,6 +6,7 @@ import pamotors from '@/public/img/logopamotor.png'
 import pamotorsFeliz from '@/public/img/pamotorsfeliz.png';
 import { usePathname } from 'next/navigation';
 import autoImg from '@/public/img/productopamotors.jpg'; // coloca aquí tu imagen
+import Logos from '@/components/Logos';
 
 const Pamotors = () => {
 
@@ -49,6 +50,7 @@ const Pamotors = () => {
         <div>
             <BannerPorRubro encontrarRubro={encontrarRubro} />
             <Beneficios beneficios={beneficios} img={imageBefenicio} descripcion={descripcion} />
+            <Logos />
         </div>
     )
 }

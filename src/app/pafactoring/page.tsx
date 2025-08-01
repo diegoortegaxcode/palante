@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation';
 import chicaWork from '@/public/img/chicawork.jpg'; // coloca aquí tu imagen
 import Logos from '@/components/Logos';
 
-
 const Pafactoring = () => {
 
     const path = usePathname();

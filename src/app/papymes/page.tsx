@@ -6,6 +6,7 @@ import papymes from '@/public/img/logopapymes.png'
 import papymesFeliz from '@/public/img/papymesfeliz.png';
 import { usePathname } from 'next/navigation';
 import chicaFeliz from '@/public/img/chicafeliz.jpg'; // coloca aquí tu imagen
+import Logos from '@/components/Logos';
 
 const Papymes = () => {
 
@@ -55,6 +56,7 @@ const Papymes = () => {
         <div>
             <BannerPorRubro encontrarRubro={encontrarRubro} />
             <Beneficios beneficios={beneficios} img={imageBefenicio} descripcion={descripcion} />
+            <Logos />
         </div>
     )
 }

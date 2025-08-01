@@ -6,6 +6,7 @@ import pafactoring from '@/public/img/pafactoringcolor.png'
 import factura from '@/public/img/bill.png'
 import pamotors from '@/public/img/pamotorscolor.png'
 import Image from 'next/image';
+import Link from 'next/link'
 const Servicios = () => {
 
     const servicios = [
@@ -13,16 +14,19 @@ const Servicios = () => {
             logo: mochila,
             img: papymes,
             desc: "Te ayudamos con el prestamo que tu negocio necesita",
+            path: '/papymes'
         },
         {
             logo: carro,
             img: pamotors,
             desc: "Te ayudamos con el prestamo para tu nuevo auto",
+            path: '/pamotors'
         },
         {
             logo: factura,
             img: pafactoring,
             desc: "Te ayudamos a obtener la liquidez que tu negocio necesita",
+            path: '/pafactoring'
         },
     ];
 
@@ -35,13 +39,15 @@ const Servicios = () => {
             <div className='grid grid-cols-1 md:grid-cols-3 gap-10 mt-10'>
                 {
                     servicios?.map((item: any, index: number) => (
-                        <div key={index} className='flex justify-center items-center'>
+                        <Link key={index}  href={item.path}>
+                            <div className='flex justify-center items-center'>
                             <div className='text-center'>
                                 <Image className='text-center mx-auto' src={item.logo} width={100} height={100} alt={item.desc} />
                                 <Image className='text-center mx-auto mt-2' src={item.img} width={100} height={100} alt={item.desc} />
                                 <p className='text-[#222] w-[90%] md:text-[16px] text-[14px] mx-auto mt-3 mb-3'>{item.desc}</p>
                             </div>
                         </div>
+                        </Link>
                     ))
                 }
             </div>
