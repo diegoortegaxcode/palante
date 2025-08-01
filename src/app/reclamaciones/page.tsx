@@ -142,7 +142,7 @@ const Reclamaciones = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    access_key: "4e0e5639-8048-40dc-97c7-fc5eb0b5c8e7", // Reemplaza con tu access_key de Web3Forms
+                    access_key: "09a2b697-8723-41fa-8936-ec1d4ee580fb", // Reemplaza con tu access_key de Web3Forms
                     subject: `Nueva reclamación de ${templateParams.nombresCompletos} - Palante Global`,
                     from_name: "Formulario de Palante Global",
                     reply_to: templateParams.email,
