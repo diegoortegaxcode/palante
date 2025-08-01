@@ -1,23 +1,61 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FloatingLabelInput from "../Input";
 import Image from "next/image";
+import { useCatalogosStore } from "@/zustand/catalogos";
+import { useRubrosStore } from "@/zustand/rubros";
+import useAlertStore from "@/zustand/alert";
+import Alert from "../Alert";
 
 const BannerPorRubro = ({ encontrarRubro }: any) => {
 
-    const [formData, setFormData] = useState({
-        nombre: '',
-        correo: '',
-        tipoPrestamo: '',
+    const { rubro } = encontrarRubro || {}
+
+    const { obtenerDepartamentos,
+        departamentos,
+        obtenerProvincias,
+        provincias,
+        obtenerDistritos,
+        distritos,
+        obtenerTiposPersona,
+        tiposPersona,
+        obtenerTiposInmueble,
+        inmuebles,
+        obtenerTiposPrestamo,
+        prestamos,
+        obtenerTiposBrevete,
+        brevetes
+    } = useCatalogosStore();
+
+    const { guardarRubro } = useRubrosStore()
+
+    const initialForm = {
+        datosCompletos: "",
+        datosCompletosRep: "",
+        id_Productos: 1,
+        ap_Pat: '',
+        ap_Mat: '',
+        correo: "",
+        nameEmpresa: "",
+        numeroDocumento: "",
+        valueDocumento: "",
+        tipoDocumento: '0',
+        idTipoPrestamo: '',
         documento: '',
-        departamento: '',
-        provincia: '',
-        distrito: '',
-        tipoBrevete: '',
-        monto: '',
-        marcaVehiculo: '',
+        id_departamento: '',
+        marcaVehiculo: "",
+        valueDocumentoCliente: "",
+        id_provincia: '',
+        id_distrito: '',
+        id_Brevete: '',
+        tieneInmuebleGarantia: "yes",
+        montoFinanciar: '',
+        id_TipoInmueble: "",
         telefono: '',
         autorizo: false,
-    });
+        plazoCredito: "",
+    }
+
+    const [formData, setFormData] = useState(initialForm);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, type, checked }: any = e.target;
@@ -27,8 +65,125 @@ const BannerPorRubro = ({ encontrarRubro }: any) => {
         }));
     };
 
+    useEffect(() => {
+        obtenerDepartamentos();
+        obtenerTiposPersona();
+        obtenerTiposInmueble();
+        obtenerTiposPrestamo();
+        obtenerTiposBrevete();
+    }, [])
+
+    useEffect(() => {
+        obtenerProvincias(Number(formData?.id_departamento));
+    }, [formData?.id_departamento])
+
+    useEffect(() => {
+        obtenerDistritos(Number(formData.id_departamento), Number(formData?.id_provincia));
+    }, [formData?.id_departamento, formData?.id_provincia])
+
+    const guardarRubroFormulario = async () => {
+        console.log(encontrarRubro)
+        console.log(formData)
+
+        if (formData?.datosCompletos === "" && rubro !== "pafactoring") {
+            useAlertStore.getState().alert('El nombre completo o la razón social es obligatorio', "error")
+            return
+        }
+
+        if (formData?.datosCompletosRep === "" && rubro === "pafactoring") {
+            useAlertStore.getState().alert('Los datos del representate de la empresa es obligatorio', "error")
+            return
+        }
+        if (formData?.nameEmpresa === "" && rubro === "pafactoring") {
+            useAlertStore.getState().alert('Los datos de la empresa es obligatorio', "error")
+            return
+        }
+        if (formData?.correo === "") {
+            useAlertStore.getState().alert('Los correo es obligatorio', "error")
+            return
+        }
+        if (formData?.idTipoPrestamo === '' && rubro === "pamotors") {
+            useAlertStore.getState().alert('Debes selecionar un tipo de prestamo', "error")
+            return
+        }
+        if (formData?.tipoDocumento === '0' && rubro !== "pafactoring") {
+            useAlertStore.getState().alert('Debes seleccionar el tipo de documento', "error")
+            return
+        }
+        if (formData?.numeroDocumento.length !== 8 && rubro !== "pafactoring" && formData?.tipoDocumento === "1") {
+            useAlertStore.getState().alert('El número de documento debe ser de 8 caracteres', "error")
+            return
+        }
+        if (formData?.numeroDocumento.length !== 11 && rubro !== "pafactoring" && formData?.tipoDocumento === "3") {
+            useAlertStore.getState().alert('El número de ruc debe ser de 11 caracteres', "error")
+            return
+        }
+        if (formData?.id_departamento === "" && rubro !== "pafactoring") {
+            useAlertStore.getState().alert('Seleccione un departamento', "error")
+            return
+        }
+        if (formData?.id_provincia === "" && rubro !== "pafactoring") {
+            useAlertStore.getState().alert('Seleccione una provincia', "error")
+            return
+        }
+        if (formData?.id_distrito === "" && rubro !== "pafactoring") {
+            useAlertStore.getState().alert('Seleccione un distrito', "error")
+            return
+        }
+        if (formData?.valueDocumento.length !== 11 && rubro === "pafactoring") {
+            useAlertStore.getState().alert('El número de documento de la empresa debe tener 11 números', "error")
+            return
+        }
+        if (formData?.telefono.length !== 9) {
+            useAlertStore.getState().alert('El número de teléfono debe tener 9 numeros', "error")
+            return
+        }
+        if (formData?.valueDocumentoCliente.length !== 11 && rubro === "pafactoring") {
+            useAlertStore.getState().alert('El número de documento del cliente debe tener 11 números', "error")
+            return
+        }
+        if (Number(formData?.montoFinanciar) === 0 || formData?.montoFinanciar === "") {
+            useAlertStore.getState().alert('El monto del financiamiento es obligatorio', "error")
+            return
+        }
+        if (formData?.id_Brevete === '' && rubro === "pamotors") {
+            useAlertStore.getState().alert('Debes selecionar un tipo de brevete', "error")
+            return
+        }
+        if (Number(formData?.plazoCredito) === 0 && rubro === "pafactoring" || formData?.plazoCredito === "" && rubro === "pafactoring") {
+            useAlertStore.getState().alert('El plazo a crédito es obligatorio', "error")
+            return
+        }
+        console.log(formData)
+        if (formData.tieneInmuebleGarantia === "yes" && formData?.id_TipoInmueble === "" && rubro === "papymes") {
+            useAlertStore.getState().alert('Debes seleccionar el tipo de inmueble', "error")
+            return
+        }
+         if (formData.marcaVehiculo === "" && rubro === "pamotors") {
+            useAlertStore.getState().alert('Describa la marca del vehículo', "error")
+            return
+        }
+        if (formData.autorizo === false) {
+            useAlertStore.getState().alert('Debes autorizar el tratamiento de tus datos personales', "error")
+            return
+        }
+        const result = await guardarRubro({
+            ...formData,
+            tieneInmuebleGarantia: formData.tieneInmuebleGarantia === 'yes' && rubro === "papymes" ? 1 : null,
+            id_Productos: rubro === "pafactoring" ? 3 : rubro === "pamotors" ? 2 : 1,
+            id_Brevete: rubro !== "pamotors" ? null : formData?.id_Brevete,
+            idTipoPrestamo: rubro !== "pamotors" ? null : formData?.idTipoPrestamo,
+            id_TipoInmueble: rubro !== "papymes" ? null : formData?.id_TipoInmueble
+        })
+        if (result == true) {
+            useAlertStore.getState().alert('Se guardo envio correctamente su evaluación, nos comunicaremos con usted lo más rápido posible', "success",)
+            setFormData(initialForm);
+        }
+    }
+
     return (
         <div>
+            <Alert />
             <p className="text-center p-6 text-[#FF392D] text-[16px] md:text-[24px] font-bold">{encontrarRubro?.title}</p>
 
             <div className={`flex flex-col md:flex-row ${encontrarRubro?.bg} p-4`}>
@@ -56,118 +211,186 @@ const BannerPorRubro = ({ encontrarRubro }: any) => {
                         COMPLETA TUS DATOS PARA RECIBIR MÁS INFORMACIÓN
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                        <div className="md:col-span-12">
-                            <FloatingLabelInput
-                                name="nombre"
-                                label="Nombre completo o Razón Social"
-                                onChange={handleChange}
-                                className="p-2 rounded text-black w-full"
-                            />
-                        </div>
+                        {
+                            rubro === "pafactoring" ? <>
+                                <div className="md:col-span-12">
+                                    <FloatingLabelInput
+                                        name="datosCompletosRep"
+                                        label="Nombres y apellidos del representante"
+                                        onChange={handleChange}
+                                        value={formData?.datosCompletosRep}
+                                        className="p-2 rounded text-black w-full"
+                                    />
+                                </div>
+                                <div className="md:col-span-12">
+                                    <FloatingLabelInput
+                                        name="nameEmpresa"
+                                        label="Razón social de la empresa"
+                                        onChange={handleChange}
+                                        value={formData?.nameEmpresa}
+                                        className="p-2 rounded text-black w-full"
+                                    />
+                                </div>
+                            </> :
+                                <div className="md:col-span-12">
+                                    <FloatingLabelInput
+                                        name="datosCompletos"
+                                        label="Nombre completo o Razón Social"
+                                        onChange={handleChange}
+                                        value={formData?.datosCompletos}
+                                        className="p-2 rounded text-black w-full"
+                                    />
+                                </div>
+                        }
 
-                        <div className="md:col-span-12">
+                        <div className={rubro !== "pafactoring" ? "md:col-span-6" : "md:col-span-12"}>
                             <FloatingLabelInput
                                 name="correo"
                                 label="Correo Electrónico"
+                                value={formData?.correo}
                                 onChange={handleChange}
                                 className="p-2 rounded text-black w-full"
                             />
                         </div>
-
-                        <div className="md:col-span-6">
-                            <FloatingLabelInput
-                                name="documento"
-                                label="DNI, CE, RUC"
-                                onChange={handleChange}
-                                className="p-2 rounded text-black w-full"
-                            />
-                        </div>
-
-
                         {
-                            encontrarRubro?.rubro === "pamotors" && (
+                            rubro === "pamotors" && (
                                 <div className="md:col-span-6">
                                     <select
-                                        name="tipoPrestamo"
+                                        name="idTipoPrestamo"
                                         onChange={handleChange}
+                                        value={formData.idTipoPrestamo}
                                         className="p-3 bg-white rounded text-black w-full"
                                     >
-                                        <option value="">Tipo de préstamo</option>
-                                        <option value="vehicular">Vehicular</option>
-                                        <option value="personal">Personal</option>
+                                        <option value="">Tipo de Prestamo</option>
+                                        {
+                                            prestamos?.map((item: any) => (
+                                                <option key={item.nValor} value={item?.nValor}>{item?.cNomCod}</option>
+                                            ))
+                                        }
                                     </select>
+                                </div>
+                            )
+                        }
+
+                        {
+                            rubro === "pafactoring" && (
+                                <div className="md:col-span-6">
+                                    <FloatingLabelInput
+                                        name="valueDocumento"
+                                        min={11}
+                                        max={11}
+                                        value={formData?.valueDocumento}
+                                        label="Ruc de la empresa"
+                                        onChange={handleChange}
+                                        className="p-2 rounded text-black w-full"
+                                    />
                                 </div>
                             )
                         }
 
 
 
-                        <div className="md:col-span-6">
-                            <select
-                                name="departamento"
-                                onChange={handleChange}
-                                className="p-3 bg-white rounded text-black w-full"
-                            >
-                                <option value="">Departamento</option>
-                                <option value="AMAZONAS">AMAZONAS</option>
-                            </select>
-                        </div>
-
-
-                        <div className="md:col-span-6">
-                            <select
-                                name="provincia"
-                                onChange={handleChange}
-                                disabled
-
-                                className="p-3 bg-white rounded text-black w-full disabled:bg-[#ebfdd8]"
-                            >
-                                <option value="">Provincia</option>
-                                <option value="AMAZONAS">AMAZONAS</option>
-                            </select>
-                        </div>
-
-                        <div className="md:col-span-6">
-                            <select
-                                name="distrito"
-                                disabled
-                                onChange={handleChange}
-                                className="p-3 bg-white rounded text-black w-full disabled:bg-[#ebfdd8]"
-                            >
-                                <option value="">Distrito</option>
-                            </select>
-                        </div>
-
-
-
-                        <div className="md:col-span-6">
-                            <FloatingLabelInput
-                                name="monto"
-                                label="Monto a financiar"
-                                onChange={handleChange}
-                                className="p-2 rounded text-black w-full"
-                            />
-                        </div>
-
                         {
-                            encontrarRubro?.rubro === "pamotors" && (
+                            rubro === "pafactoring" && (
+                                <div className="md:col-span-6">
+                                    <FloatingLabelInput
+                                        name="valueDocumentoCliente"
+                                        min={11}
+                                        max={11}
+                                        value={formData?.valueDocumentoCliente}
+                                        label="Ruc del cliente"
+                                        onChange={handleChange}
+                                        className="p-2 rounded text-black w-full"
+                                    />
+                                </div>
+                            )
+                        }
+                        {
+                            rubro !== "pafactoring" && (
                                 <>
                                     <div className="md:col-span-6">
                                         <select
-                                            name="tipoBrevete"
+                                            name="tipoDocumento"
                                             onChange={handleChange}
+                                            value={formData.tipoDocumento}
                                             className="p-3 bg-white rounded text-black w-full"
                                         >
-                                            <option value="">Tipo de brevete</option>
+                                            <option value="0">Tipo documento</option>
+                                            {
+                                                tiposPersona?.map((item: any) => (
+                                                    <option key={item.nValor} value={item?.nValor}>{item?.cNomCod}</option>
+                                                ))
+                                            }
                                         </select>
                                     </div>
                                     <div className="md:col-span-6">
                                         <FloatingLabelInput
-                                            name="marcaVehiculo"
-                                            label="Marca de vehículo"
+                                            name="numeroDocumento"
+                                            min={11}
+                                            max={11}
+                                            value={formData?.numeroDocumento}
+                                            label="Número de documento"
                                             onChange={handleChange}
                                             className="p-2 rounded text-black w-full"
                                         />
+                                    </div>
+                                </>
+                            )
+                        }
+
+                        {
+                            rubro !== "pafactoring" && (
+                                <>
+                                    <div className="md:col-span-6">
+                                        <select
+                                            name="id_departamento"
+                                            onChange={handleChange}
+                                            value={formData.id_departamento}
+                                            className="p-3 bg-white rounded text-black w-full"
+                                        >
+                                            <option value="">Departamento</option>
+                                            {
+                                                departamentos?.map((item: any) => (
+                                                    <option key={item.departamento_id} value={item?.departamento_id}>{item?.departamento_nombre}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+
+
+                                    <div className="md:col-span-6">
+                                        <select
+                                            name="id_provincia"
+                                            onChange={handleChange}
+                                            value={formData.id_provincia}
+                                            disabled={provincias?.length === 0}
+
+                                            className="p-3 bg-[rgba(255,255,255,0.3)] rounded text-black w-full disabled:bg-[rgba(255,255,255,0.3)]"
+                                        >
+                                            <option value="">Provincia</option>
+                                            {
+                                                provincias?.map((item: any) => (
+                                                    <option key={item?.provincia_id} value={item?.provincia_id}>{item?.provincia_nombre}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div className="md:col-span-6">
+                                        <select
+                                            name="id_distrito"
+                                            disabled={distritos?.length === 0}
+                                            onChange={handleChange}
+                                            value={formData.id_distrito}
+                                            className="p-3 bg-[rgba(255,255,255,0.3)] rounded text-black w-full disabled:bg-[rgba(255,255,255,0.3)"
+                                        >
+                                            <option value="">Distritos</option>
+                                            {
+                                                distritos?.map((item: any, index: number) => (
+                                                    <option key={index} value={item?.distrito_id}>{item?.distrito_nombre}</option>
+                                                ))
+                                            }
+                                        </select>
                                     </div>
                                 </>
                             )
@@ -178,35 +401,122 @@ const BannerPorRubro = ({ encontrarRubro }: any) => {
                                 name="telefono"
                                 label="Teléfono"
                                 onChange={handleChange}
+                                value={formData?.telefono}
                                 className="p-2 rounded text-black w-full"
                             />
                         </div>
-                        <div className="md:col-span-12 flex items-start gap-2 flex-col">
-                            <strong className="text-[13px]">¿Cuentas con Inmueble para dejar en garantía?</strong>
-                            <div className="flex">
-                                <div className="flex items-center">
-                                    <input type="radio" name="" id="" />
-                                    <label className="ml-2 mr-2" htmlFor="">Si</label>
-                                </div>
-                                <div className="flex items-center">
-                                    <input type="radio" name="" id="" />
-                                    <label className="ml-2 mr-2" htmlFor="">No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="md:col-span-12">
-                            <select
-                                name="distrito"
+
+                        <div className="md:col-span-6">
+                            <FloatingLabelInput
+                                name="montoFinanciar"
+                                type="number"
+                                label="Monto a financiar"
+                                value={formData?.montoFinanciar}
                                 onChange={handleChange}
-                                className="p-3 bg-white rounded text-black w-full disabled:bg-[#ebfdd8]"
-                            >
-                                <option value="">Tipos de inmueble</option>
-                                <option value="">Casa</option>
-                                <option value="">Departamento</option>
-                                <option value="">Terreno</option>
-                                <option value="">Local Comercial</option>
-                            </select>
+                                className="p-2 rounded text-black w-full"
+                            />
                         </div>
+
+                        {
+                            rubro === "pafactoring" && (
+                                <div className="md:col-span-6">
+                                    <FloatingLabelInput
+                                        name="plazoCredito"
+                                        label="Plazo crédito"
+                                        value={formData?.plazoCredito}
+                                        onChange={handleChange}
+                                        className="p-2 rounded text-black w-full"
+                                    />
+                                </div>
+                            )
+                        }
+
+                        {
+                            encontrarRubro?.rubro === "pamotors" && (
+                                <>
+                                    <div className="md:col-span-6">
+                                        <select
+                                            name="id_Brevete"
+                                            onChange={handleChange}
+                                            value={formData.id_Brevete}
+                                            className="p-3 bg-white rounded text-black w-full"
+                                        >
+                                            <option value="">Tipo de brevete</option>
+                                            {
+                                                brevetes?.map((item: any) => (
+                                                    <option key={item.nValor} value={item?.nValor}>{item?.cNomCod}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="md:col-span-6">
+                                        <FloatingLabelInput
+                                            name="marcaVehiculo"
+                                            label="Marca de vehículo"
+                                            onChange={handleChange}
+                                            value={formData?.marcaVehiculo}
+                                            className="p-2 rounded text-black w-full"
+                                        />
+                                    </div>
+                                </>
+                            )
+                        }
+
+
+                        {
+                            rubro !== "pafactoring" && rubro !== "pamotors" && (
+                                <>
+                                    <div className="md:col-span-12 flex items-start gap-2 flex-col">
+                                        <strong className="text-[13px]">¿Cuentas con Inmueble para dejar en garantía?</strong>
+                                        <div className="flex">
+                                            <div className="flex items-center">
+                                                <input
+                                                    className=""
+                                                    type="radio"
+                                                    name="tieneInmuebleGarantia"
+                                                    value="yes"
+                                                    checked={formData.tieneInmuebleGarantia === 'yes'}
+                                                    onChange={handleChange}
+                                                    id="si"
+                                                />
+                                                <label className="ml-2 mr-2" htmlFor="si">Si</label>
+                                            </div>
+                                            <div className="flex items-center">
+                                                <input
+                                                    type="radio"
+                                                    name="tieneInmuebleGarantia"
+                                                    value="no"
+                                                    checked={formData.tieneInmuebleGarantia === 'no'}
+                                                    onChange={handleChange}
+                                                    id="no"
+                                                />
+                                                <label className="ml-2 mr-2" htmlFor="no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {
+                                        formData.tieneInmuebleGarantia === 'yes' && (
+                                            <div className="md:col-span-12">
+                                                <select
+                                                    name="id_TipoInmueble"
+                                                    onChange={handleChange}
+                                                    value={formData.id_TipoInmueble}
+                                                    className="p-3 bg-white rounded text-black w-full disabled:bg-[#ebfdd8]"
+                                                >
+                                                    <option value="">Tipos de inmueble</option>
+                                                    {
+                                                        inmuebles?.map((item: any, index: number) => (
+                                                            <option key={index} value={item?.nValor}>{item?.cNomCod}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </div>
+                                        )
+                                    }
+
+                                </>
+                            )
+                        }
 
                         <div className="md:col-span-12 flex items-start gap-2">
                             <input
@@ -226,7 +536,7 @@ const BannerPorRubro = ({ encontrarRubro }: any) => {
 
 
                     {/* Botón */}
-                    <button className="mt-4 w-full bg-[#23286E] cursor-pointer transition-colors py-3 rounded text-white font-bold">
+                    <button onClick={guardarRubroFormulario} className="mt-4 w-full bg-[#23286E] cursor-pointer transition-colors py-3 rounded text-white font-bold">
                         Te evaluamos al toque
                     </button>
                 </div>

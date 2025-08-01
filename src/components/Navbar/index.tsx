@@ -55,7 +55,6 @@ export default function Navbar() {
     const [history, setHistory] = useState<any[]>([menuStructure[0]]);
     const [animating, setAnimating] = useState(false);
     const [direction, setDirection] = useState<"forward" | "backward">("forward");
-    const { obtenerDepartamentos } = useCatalogosStore();
 
     const currentMenu = history[history.length - 1];
 
@@ -81,10 +80,6 @@ export default function Navbar() {
             setAnimating(false);
         }, 300);
     };
-
-    useEffect(() => {
-        obtenerDepartamentos();
-    },[])
 
     return (
         <div className="border-b shadow-sm border-[#f7f7f7]">

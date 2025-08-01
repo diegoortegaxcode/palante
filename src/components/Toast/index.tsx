@@ -25,7 +25,7 @@ const Toast = ({ id, title, message, type }: IAlertProps) => {
       if (type === 'success' || type === 'error') {
           const timer = setTimeout(() => {
               removeAlert(id);
-          }, 4000); // 4 segundos
+          }, 7000); // 4 segundos
 
           // Limpiar el temporizador si el componente se desmonta
           return () => clearTimeout(timer);

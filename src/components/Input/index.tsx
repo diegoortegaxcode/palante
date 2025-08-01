@@ -22,7 +22,7 @@ const FloatingLabelInput: React.FC<FloatingLabelInputProps> = ({
         id={name}
         onFocus={() => setFocused(true)}
         onBlur={(e) => setFocused(e.target.value !== '' || focused)}
-        className="bg-[#fff] outline-none w-full text-sm border rounded-md focus:outline-none"
+        className="bg-[#fff] outline-none w-full text-sm border rounded-md focus:outline-none" style={{fontFamily: 'Mark Pro R'}}
         {...props}
       />
       <label

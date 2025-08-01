@@ -18,8 +18,8 @@ h3 {
   font-family: 'Mark Pro', sans-serif;
 }
 
-p, a ,h4, li, span, h2, button, input[text="text"] {
-  font-family: 'Mark Pro R', sans-serif !important;
+p, a ,h4, li, span, h2, button, input[type="text"] , label, select{
+  font-family: 'Mark Pro R' !important;
 }
 
 h6, strong {
@@ -30,7 +30,7 @@ h6, strong {
   width: 60%;
 }
 
-input {
+input[type="text"] {
   width: 100%;
   outline: none;
 }

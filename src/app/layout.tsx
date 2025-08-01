@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Alert from '@/components/Alert';
 
 export const metadata: Metadata = {
   title: 'Palante Global | Clon',
