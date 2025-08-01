@@ -27,7 +27,7 @@ const Servicios = () => {
     ];
 
     return (
-        <div className='max-w-screen-xl mx-auto mt-20 mb-20'>
+        <div className='max-w-screen-xl mx-auto mt-20 mb-20' id='servicio'>
             <div>
                 <h3 className='text-center mt-10 mb-3 text-[#FF392D] md:text-[30px] font-bold w-[80%] mx-auto'>En Palante Préstamos queremos hacer realidad tus sueños financiando tu crecimiento</h3>
                 <p className='text-center text-[16px] text-[#222] font-medium w-[80%] mx-auto'>Hemos diseñado soluciones que se ajustan a tus necesidades</p>

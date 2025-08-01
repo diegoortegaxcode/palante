@@ -29,7 +29,7 @@ const Contacto = () => {
                     </div>
                 </div>
             </div>
-            <div className="mx-w-screen-2xl mx-auto mt-20 mb-10 px-5 md:px-0">
+            <div id='oficinas' className="mx-w-screen-2xl mx-auto mt-20 mb-10 px-5 md:px-0">
                 <div className='grid md:grid-cols-2 items-center gap-10'>
                     <div>
                         <Image src={contacto} className='w-full' alt='' width={1500} height={500} />

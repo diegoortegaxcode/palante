@@ -43,7 +43,7 @@ const menuStructure = [
                         path: 'contacto', rubro: 'Escribenos'
                     },
                     {
-                        path: '', rubro: 'Trabaja con nosotros'
+                        path: 'https://grupopalante.hiringroom.com/jobs', rubro: 'Trabaja con nosotros'
                     }
                 ]
             },
@@ -104,7 +104,7 @@ export default function Navbar() {
                                 <ul className="absolute hidden z-50 group-hover:block bg-white w-[200px] rounded">
                                     {item.submenu.map((sub: any, sidx: number) => (
                                         <li key={sidx} className="hover:bg-[#F4F4F4] transition-all">
-                                            <a href={sub.path} className="text-[#697282] hover:text-[#23286E] font-medium block px-4 py-2">{sub.rubro}</a>
+                                            <Link href={sub.path} target={`${sub.rubro === "Trabaja con nosotros" ? '_blank' : ""}`} className="text-[#697282] hover:text-[#23286E] font-medium block px-4 py-2">{sub.rubro}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -149,7 +149,7 @@ export default function Navbar() {
                                         if (item.submenu) goToSubmenu(item.submenu);
                                     }}
                                 >
-                                    <a href={item.path}><span>{item.rubro || item.title}</span></a>
+                                    <Link href={item.path} target={`${item.rubro === "Trabaja con nosotros" ? '_blank' : ""}`}><span>{item.rubro || item.title}</span></Link>
                                     {item.submenu && <ChevronRight className="w-4 h-4 text-gray-400" />}
                                 </li>
                             ))}

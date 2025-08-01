@@ -28,7 +28,7 @@ const Confianza = () => {
     ];
 
     return (
-        <div className='max-w-screen-xl mx-auto mb-10'>
+        <div id="beneficio" className='max-w-screen-xl mx-auto mb-10'>
             <div className='grid grid-cols-1 md:grid-cols-2 md:items-center'>
                 <div>
                     <h3 className='text-center md:text-left mt-10 mb-3 text-[#FF392D] md:text-[35px] font-bold w-[80%] mx-auto'>Por que confiar en nosotros</h3>

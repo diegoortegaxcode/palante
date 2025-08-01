@@ -18,7 +18,7 @@ h3 {
   font-family: 'Mark Pro', sans-serif;
 }
 
-p, a ,h4, li, span, h2, button, input[type="text"] , label, select{
+p, a ,h4, li, span, h2, button, input[type="text"] ,input[type="email"], input[type="number"], label, select , textarea {
   font-family: 'Mark Pro R' !important;
 }
 

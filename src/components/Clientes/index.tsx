@@ -21,7 +21,7 @@ const Clientes = () => {
     ];
 
     return (
-        <div className='mx-auto max-w-screen-xl mb-10'>
+        <div className='mx-auto max-w-screen-xl mb-10' id='testimonio'>
             <div>
                 <h3 className='text-center mt-10 mb-3 text-[#FF392D] md:text-[30px] font-bold w-[100%] mx-auto'>Nuestros clientes hablan por nosotros</h3>
                 <p className='text-center text-[16px] text-[#222] font-medium w-[80%] mx-auto'>Esto opinan ellos, gracias por la confianza</p>

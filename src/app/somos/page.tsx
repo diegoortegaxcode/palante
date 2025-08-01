@@ -8,7 +8,7 @@ import familia from '@/public/img/familia.jpg'
 const Somos = () => {
     return (
         <div>
-            <div className="max-w-screen-2xl mx-auto mb-30 px-5 md:px-0">
+            <div id="empresas" className="max-w-screen-2xl mx-auto mb-30 px-5 md:px-0">
                 <div className="mt-20">
                     <h4 className="text-center text-[#E40422] text-[35px]">Empresas del Grupo Palante</h4>
                     <Image height={100} className="mx-auto mt-20 w-4/12 h-full object-container mb-10" alt="grupo-palante" src={grupoPalante} />
@@ -32,7 +32,7 @@ const Somos = () => {
                 </div>
             </div>
 
-            <div className="max-w-screen-2xl mx-auto mb-30 px-5 md:px-0">
+            <div id="compromiso" className="max-w-screen-2xl mx-auto mb-30 px-5 md:px-0">
                 <div className="mt-20">
                     <h4 className="text-center text-[#E40422] text-[35px]">Nuestro compromiso es con el crecimiento y bienestar de tu familia</h4>
                     <div className="md:grid-cols-2 grid items-center gap-10 mt-14">
