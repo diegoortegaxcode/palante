@@ -89,6 +89,11 @@ export default function Navbar() {
                     <a href="/"><Image src={logo} alt="Logo" width={180} height={50} /></a>
 
                     <div className="hidden md:flex space-x-4">
+                        <a
+                            href="https://wa.me/51951238709?text=Hola%20quiero%20más%20información%20sobre%20sus%20servicios"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        ><Icon color="#23286E" icon="mingcute:whatsapp-fill" width="50" height="50" /></a>
                         <Link href="https://web.facebook.com/palanteprestamos/?_rdc=1&_rdr#" target="_blank"><Icon color="#23286E" icon="ic:baseline-facebook" width="50" height="50" /></Link>
                         <Link href="https://www.linkedin.com/company/grupo-palante/" target="_blank"><Icon color="#23286E" icon="mdi:linkedin" width="50" height="50" /></Link>
                     </div>
